@@ -1,6 +1,4 @@
-## demo app - developing with Docker
+## demo app - CI Pipeline
 
-This demo app shows a simple user profile app set up using 
-- index.html with pure js and css styles
-- nodejs backend with express module
-- mongodb for data storage
+This demo app shows a simple continous  intergration pipeline from source code to image Docker image registry.
+I used Jenkins and GitHub SCM and set up my automated trigger in Jenkins.
