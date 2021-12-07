@@ -1,21 +1,31 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('build') {
-            steps {
-                echo 'Building the application'
-            }
-        }
-        stage('test') {
-            steps {
-                echo 'Testing the application'
-            }
-        }
-        stage('deploy') {
-            steps {
-                echo 'Deploying the application'
-            }
-       }
-   }
+    agent {label 'linux'}
+    options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('explorertolu-dockerhub')
+  }
+stages {
+    stage('Build') {
+      steps {
+        sh './jenkins/build.sh'
+      }
+    }
+    stage('Login') {
+      steps {
+        sh './jenkins/login.sh'
+      }
+    }
+    stage('Push') {
+      steps {
+        sh './jenkins/push.sh'
+      }
+    }
+  }
+  post {
+    always {
+      sh './jenkins/logout.sh'
+    }
+  }
 }
